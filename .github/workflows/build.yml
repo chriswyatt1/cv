@@ -5,11 +5,18 @@ on:
     branches: [main]
     paths:
       - "cv.tex"
+      - "publications.tex"
+      - "scripts/**"
       - ".github/workflows/build.yml"
   pull_request:
     paths:
       - "cv.tex"
+      - "publications.tex"
+      - "scripts/**"
   workflow_dispatch:
+  schedule:
+    # Weekly refresh so newly-published work on ORCID flows into the CV.
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
 
 permissions:
   contents: write
@@ -20,6 +27,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Pull the latest publication list from ORCID + Crossref. Uses only the
+      # Python standard library, so no pip install is needed.
+      - name: Refresh publications from ORCID
+        run: python3 scripts/fetch_publications.py
+
+      # If the list changed, commit it back to main so the source stays in sync.
+      # [skip ci] stops this commit from triggering another build.
+      - name: Commit refreshed publications
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          if ! git diff --quiet -- publications.tex; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add publications.tex
+            git commit -m "chore: refresh publications from ORCID [skip ci]"
+            git push
+          else
+            echo "publications.tex unchanged"
+          fi
 
       - name: Compile LaTeX -> PDF
         uses: xu-cheng/latex-action@v3
