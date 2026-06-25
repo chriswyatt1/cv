@@ -9,33 +9,44 @@
 % ---- Packages -------------------------------------------------------
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[margin=2.2cm]{geometry}
-\usepackage[hidelinks]{hyperref}
+\usepackage{XCharter}                 % modern serif body font
+\usepackage[scaled=0.92]{FiraSans}    % clean sans for headings (\sffamily)
+\usepackage[margin=2cm]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{microtype}
+\usepackage{fontawesome5}             % contact / brand icons
+\usepackage[hidelinks]{hyperref}
 
 % ---- Style ----------------------------------------------------------
-\definecolor{accent}{HTML}{2c3e50}
+\definecolor{accent}{HTML}{0E7490}    % teal accent
+\definecolor{muted}{HTML}{555555}
 
-% Section headings: small caps, accent colour, with a rule underneath.
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+% Section headings: sans, bold, accent colour, with an accent rule beneath.
 \titleformat{\section}
-  {\Large\bfseries\scshape\color{accent}}
-  {}{0pt}{}[\vspace{2pt}\titlerule]
-\titlespacing*{\section}{0pt}{14pt}{8pt}
+  {\sffamily\large\bfseries\color{accent}}
+  {}{0pt}{}[{\color{accent!35}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{13pt}{6pt}
+
+% Coloured bullet for itemized lists.
+\renewcommand{\labelitemi}{\textcolor{accent}{\footnotesize\faCircle}}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt}
 \pagestyle{empty}
 
+% Small helper: an icon followed by its link/text, in accent colour.
+\newcommand{\contact}[2]{\textcolor{accent}{#1}\,#2}
+
 % ---- Helper: one career/education entry -----------------------------
 % \cventry{Role / title}{Institution, location}{Dates}{Description}
 \newcommand{\cventry}[4]{%
-  \textbf{#1}\par
-  \textit{#2}\hfill\textit{#3}\par
-  \vspace{2pt}#4\par\vspace{8pt}%
+  {\sffamily\bfseries #1}\hfill{\sffamily\small\color{muted}#3}\par
+  {\itshape #2}\par
+  \vspace{1pt}#4\par\vspace{7pt}%
 }
 
 % =====================================================================
@@ -43,21 +54,23 @@
 
 % ---- Header ---------------------------------------------------------
 \begin{center}
-  {\LARGE\bfseries\color{accent} Christopher Douglas Robert Wyatt}\par
+  {\sffamily\Huge\bfseries\color{accent} Christopher Douglas Robert Wyatt}\par
+  \vspace{3pt}
+  {\sffamily\large\color{muted} Bioinformatician \textbullet\ reproducible pipelines for evolution \& ecology}\par
+  \vspace{7pt}
+  \contact{\faEnvelope}{\href{mailto:cw13722@gmail.com}{cw13722@gmail.com}}
+  \quad
+  \contact{\faGlobe}{British}\par
   \vspace{4pt}
-  {\large Curriculum Vitae}\par
-  \vspace{6pt}
-  \href{mailto:cw13722@gmail.com}{cw13722@gmail.com}
-  \quad$\cdot$\quad Nationality: British\par
-  \vspace{4pt}
-  \href{https://orcid.org/0000-0001-8033-2213}{ORCID}
-  \quad$\cdot$\quad
-  \href{https://www.researchgate.net/profile/Christopher-Wyatt-5}{ResearchGate}
-  \quad$\cdot$\quad
-  \href{https://www.linkedin.com/in/christopher-wyatt-653800235}{LinkedIn}
-  \quad$\cdot$\quad
-  \href{https://github.com/chriswyatt1}{GitHub}
+  \contact{\faOrcid}{\href{https://orcid.org/0000-0001-8033-2213}{ORCID}}
+  \quad
+  \contact{\faResearchgate}{\href{https://www.researchgate.net/profile/Christopher-Wyatt-5}{ResearchGate}}
+  \quad
+  \contact{\faLinkedin}{\href{https://www.linkedin.com/in/christopher-wyatt-653800235}{LinkedIn}}
+  \quad
+  \contact{\faGithub}{\href{https://github.com/chriswyatt1}{GitHub}}
 \end{center}
+\vspace{2pt}
 
 % ---- Profile --------------------------------------------------------
 \section{Profile}
