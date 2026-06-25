@@ -1,0 +1,117 @@
+% =====================================================================
+%  Curriculum Vitae — Christopher D. R. Wyatt
+%  Self-contained LaTeX source. Builds to cv.pdf.
+%  Local build:   latexmk -pdf cv.tex   (or: pdflatex cv.tex)
+%  CI build:      see .github/workflows/build.yml
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---- Packages -------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+% ---- Style ----------------------------------------------------------
+\definecolor{accent}{HTML}{2c3e50}
+
+% Section headings: small caps, accent colour, with a rule underneath.
+\titleformat{\section}
+  {\Large\bfseries\scshape\color{accent}}
+  {}{0pt}{}[\vspace{2pt}\titlerule]
+\titlespacing*{\section}{0pt}{14pt}{8pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\pagestyle{empty}
+
+% ---- Helper: one career/education entry -----------------------------
+% \cventry{Role / title}{Institution, location}{Dates}{Description}
+\newcommand{\cventry}[4]{%
+  \textbf{#1}\par
+  \textit{#2}\hfill\textit{#3}\par
+  \vspace{2pt}#4\par\vspace{8pt}%
+}
+
+% =====================================================================
+\begin{document}
+
+% ---- Header ---------------------------------------------------------
+\begin{center}
+  {\LARGE\bfseries\color{accent} Christopher Douglas Robert Wyatt}\par
+  \vspace{4pt}
+  {\large Curriculum Vitae}\par
+  \vspace{6pt}
+  \href{mailto:cw13722@gmail.com}{cw13722@gmail.com}
+  \quad$\cdot$\quad Nationality: British
+  % To add more links, uncomment and edit:
+  % \\\href{https://www.researchgate.net/profile/Christopher-Wyatt-5}{ResearchGate}
+  % \quad$\cdot$\quad \href{https://github.com/chriswyatt1}{GitHub}
+  % \quad$\cdot$\quad \href{https://orcid.org/0000-0000-0000-0000}{ORCID}
+\end{center}
+
+% ---- Profile --------------------------------------------------------
+\section{Profile}
+
+I started my scientific career studying phylogenetics and molecular
+evolution, which got me hooked on understanding how the complexity of
+life evolved. With the arrival of improved DNA/RNA sequencing
+technologies, this opened up a world of high quality empirical data to
+better understand molecular regulation and evolution.
+
+I have had the privilege to work with most of these next-generation
+sequencing technologies (RNA-Seq, MS-Proteomics, Hi-C) to address key
+questions in the field of evolutionary and developmental biology. I am
+proficient in Unix, Perl and R, and have working experience with
+Python/Matlab. I am also proficient in writing higher-level workflows
+using Nextflow, which allows the sharing of reproducible, concise and
+scalable pipelines. I have presented my work at many major meetings
+across Europe and am confident communicating my ideas and science.
+
+I completed my doctoral training at the Centre for Genomic Regulation
+(CRG, Barcelona), where I worked on alternative splicing regulation in
+the lab of Manuel Irimia and additionally collaborated with the labs of
+Peter Holland (Oxford), Nacho Maeso (CABD, Sevilla) and Bill Keyes
+(IGBMC, Strasbourg), working in the fields of transcriptional
+regulation, reprogramming, senescence and splicing regulation,
+producing a number of high impact publications and gaining a broad
+knowledge of many bioscience fields.
+
+Since my PhD, I have worked at UCL (lab of Seirian Sumner) on several
+projects, including the use of machine learning to discover genes that
+are required for caste identification across wasps. More recently I have
+worked for Seqera Labs (the authors of Nextflow) to process biomedical
+data for specific startups, which has given me great experience in
+producing high quality informatics pipelines for clients.
+
+% ---- Career ---------------------------------------------------------
+\section{Education \& Research Career}
+
+\cventry{Pipeline Developer}{Seqera Labs, Barcelona}{June 2021 -- Sept 2021}{%
+Writing Nextflow pipelines for several startups as well as documenting
+the training material for Nextflow. This gave me in-depth knowledge of
+this domain specific language for pipeline development.}
+
+\cventry{Post-doctorate in Evolutionary Genomics / Transcriptomics}{Centre for Biodiversity and Environment Research, UCL, London}{April 2019 -- Feb 2021}{%
+Worked on a variety of research projects in the Eusocial Insect Research
+Group (Seirian Sumner) using machine learning, transcriptomics and
+proteomics approaches (using Nextflow) to explore wasp caste identity
+and evolution. Work submitted to bioRxiv prior to publication.}
+
+\cventry{PhD in Biomedicine}{Systems Biology, Centre for Genomic Regulation, Barcelona}{Sept 2015 -- March 2019}{%
+Studied the regulation and patterns of alternative splicing during
+pre-implantation mammalian development.}
+
+% ---- Skills (optional starter section) ------------------------------
+\section{Technical Skills}
+
+\textbf{Languages \& tools:} Unix/Bash, Perl, R, Python, Matlab\par
+\textbf{Workflows:} Nextflow (nf-core), reproducible \& FAIR pipelines\par
+\textbf{Data types:} RNA-Seq, MS-Proteomics, Hi-C, genome assembly\par
+
+\end{document}

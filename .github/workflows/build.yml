@@ -1,0 +1,47 @@
+name: Build CV
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cv.tex"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "cv.tex"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX -> PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cv.tex
+          latexmk_use_xelatex: false
+
+      - name: Upload PDF as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-pdf
+          path: cv.pdf
+
+      # Publish the built PDF to the gh-pages branch so it has a stable URL:
+      #   https://chriswyatt1.github.io/cv/cv.pdf
+      # Only runs on pushes to main (not on PRs).
+      - name: Deploy PDF to gh-pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: false
+          exclude_assets: "**.tex,**.aux,**.log,**.git*,**.github/**"

@@ -1,0 +1,13 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# Built PDF (produced by CI; uncomment to also track it in the repo)
+cv.pdf
