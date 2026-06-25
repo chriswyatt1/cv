@@ -33,15 +33,21 @@ jobs:
           name: cv-pdf
           path: cv.pdf
 
+      # Stage only the files we want served, so the deploy never touches .git.
+      - name: Stage site files
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          mkdir -p public
+          cp cv.pdf public/
+          cp index.html public/
+
       # Publish the built PDF to the gh-pages branch so it has a stable URL:
       #   https://chriswyatt1.github.io/cv/cv.pdf
       # Only runs on pushes to main (not on PRs).
-      - name: Deploy PDF to gh-pages
+      - name: Deploy to gh-pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./public
           publish_branch: gh-pages
-          keep_files: false
-          exclude_assets: "**.tex,**.aux,**.log,**.git*,**.github/**"
