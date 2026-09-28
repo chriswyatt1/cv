@@ -15,6 +15,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.parse
 import urllib.request
 
@@ -36,10 +37,37 @@ def get_json(url):
         return json.load(r)
 
 
+# Capital Greek letters with no LaTeX macro look identical to Latin ones.
+GREEK_LATIN_CAPS = {"alpha": "A", "beta": "B", "epsilon": "E", "zeta": "Z",
+                    "eta": "H", "iota": "I", "kappa": "K", "mu": "M",
+                    "nu": "N", "omicron": "O", "rho": "P", "tau": "T",
+                    "chi": "X"}
+
+
+def greek_to_latex(ch):
+    """Map a Greek letter to a math-mode macro; pdflatex can't typeset raw α."""
+    m = re.fullmatch(r"GREEK (SMALL|CAPITAL) LETTER (FINAL )?(\w+)",
+                     unicodedata.name(ch, ""))
+    if not m:
+        return ch
+    case, final, name = m.groups()
+    name = name.lower().replace("lamda", "lambda")
+    if case == "CAPITAL":
+        if name in GREEK_LATIN_CAPS:
+            return GREEK_LATIN_CAPS[name]
+        name = name.capitalize()
+    elif final:
+        name = "varsigma"
+    elif name == "omicron":
+        return "o"
+    return rf"\ensuremath{{\{name}}}"
+
+
 def latex_escape(s):
     if not s:
         return ""
-    s = html.unescape(s)
+    # NFC folds combining accents (e + U+0301) into é, which pdflatex accepts.
+    s = unicodedata.normalize("NFC", html.unescape(s))
     s = s.replace("<i>", " \x01").replace("</i>", "\x02")
     s = s.replace("<I>", " \x01").replace("</I>", "\x02")
     s = re.sub(r"<[^>]+>", "", s)  # strip any other stray tags
@@ -50,6 +78,8 @@ def latex_escape(s):
                  "_": r"\_", "$": r"\$"}.items():
         s = s.replace(k, v)
     s = s.replace("\x01", r"\textit{").replace("\x02", "}")
+    s = "".join(greek_to_latex(c) if "Ͱ" <= c <= "Ͽ" else c
+                for c in s)
     return re.sub(r"\s+", " ", s).strip()
 
 
